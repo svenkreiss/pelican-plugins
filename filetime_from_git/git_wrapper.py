@@ -2,14 +2,27 @@
 """
 Wrap python git interface for compatibility with older/newer version
 """
+try:
+    from itertools import zip_longest
+except ImportError:
+    from six.moves import zip_longest
 import logging
 import os
-from time import mktime, altzone
+from time import mktime
 from datetime import datetime
 from pelican.utils import set_date_tzinfo
 from git import Git, Repo
 
 DEV_LOGGER = logging.getLogger(__name__)
+
+
+def grouper(iterable, n, fillvalue=None):
+    '''
+    Collect data into fixed-length chunks or blocks
+    '''
+    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
+    args = [iter(iterable)] * n
+    return zip_longest(fillvalue=fillvalue, *args)
 
 
 class _GitWrapperCommon(object):
@@ -26,7 +39,7 @@ class _GitWrapperCommon(object):
         :returns: True if path is managed by git
         '''
         status, _stdout, _stderr = self.git.execute(
-            ['git', 'ls-files', path, '--error-unmatch'],
+            ['git', 'ls-files', path.encode('utf-8'), '--error-unmatch'],
             with_extended_output=True,
             with_exceptions=False)
         return status == 0
@@ -38,7 +51,7 @@ class _GitWrapperCommon(object):
         :returns: True if file has local changes
         '''
         status, _stdout, _stderr = self.git.execute(
-            ['git', 'diff', '--quiet', 'HEAD', path],
+            ['git', 'diff', '--quiet', 'HEAD', path.encode('utf-8')],
             with_extended_output=True,
             with_exceptions=False)
         return status != 0
@@ -51,9 +64,23 @@ class _GitWrapperCommon(object):
         :param path: Path which we will find commits for
         :returns: Sequence of commit objects. Newest to oldest
         '''
-        commit_shas = self.git.log(
-            '--pretty=%H', '--follow', '--', path).splitlines()
-        return map(self.repo.commit, commit_shas)
+        return [
+            commit for commit, _ in self.get_commits_and_names_iter(
+                path)]
+
+    def get_commits_and_names_iter(self, path):
+        '''
+        Get all commits including a given path following renames
+        '''
+        log_result = self.git.log(
+            '--pretty=%H',
+            '--follow',
+            '--name-only',
+            '--',
+            path.encode('utf-8')).splitlines()
+
+        for commit_sha, _, filename in grouper(log_result, 3):
+            yield self.repo.commit(commit_sha), filename
 
     def get_commits(self, path, follow=False):
         '''
@@ -79,7 +106,7 @@ class _GitWrapperLegacy(_GitWrapperCommon):
 
         :returns: Sequence of commit objects. Newest to oldest
         '''
-        return self.repo.commits(path=path)
+        return self.repo.commits(path=path.encode('utf-8'))
 
     @staticmethod
     def get_commit_date(commit, tz_name):
@@ -87,7 +114,7 @@ class _GitWrapperLegacy(_GitWrapperCommon):
         Get datetime of commit comitted_date
         '''
         return set_date_tzinfo(
-            datetime.fromtimestamp(mktime(commit.committed_date) - altzone),
+            datetime.fromtimestamp(mktime(commit.committed_date)),
             tz_name=tz_name)
 
 
@@ -106,7 +133,7 @@ class _GitWrapper(_GitWrapperCommon):
 
             Alternatively enabling GIT_FILETIME_FOLLOW may also make your problem go away.
         '''
-        return list(self.repo.iter_commits(paths=path))
+        return list(self.repo.iter_commits(paths=path.encode('utf-8')))
 
     @staticmethod
     def get_commit_date(commit, tz_name):

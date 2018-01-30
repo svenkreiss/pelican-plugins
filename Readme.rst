@@ -36,6 +36,8 @@ Plugin descriptions
 ========================  ===========================================================
 Plugin                    Description
 ========================  ===========================================================
+Ace Editor                Replace default **<code>** by an Ace__ code editor with settings configure on pelicanconf.py.
+
 Always modified           Copy created date metadata into modified date for easy "latest updates" indexes
 
 AsciiDoc reader           Use AsciiDoc to write your posts.
@@ -51,6 +53,8 @@ Better code line numbers  Allow code blocks with line numbers to wrap
 Better code samples       Wraps ``table`` blocks with ``div > .hilitewrapper > .codehilitetable`` class attribute, allowing for scrollable code blocks.
 
 Better figures/samples    Adds a ``style="width: ???px; height: auto;"`` attribute to any ``<img>`` tags in the content
+
+bootstrap-rst             Provides most (though not all) of Bootstrap's features as rst directives
 
 bootstrapify              Automatically add bootstraps default classes to your content
 
@@ -70,6 +74,8 @@ Custom article URLs       Adds support for defining different default URLs for d
 
 Dateish                   Treat arbitrary metadata fields as datetime objects
 
+Dead Links                Manage dead links (website not available, errors such as 403, 404)
+
 Disqus static comments    Adds a disqus_comments property to all articles. Comments are fetched at generation time using disqus API
 
 Encrypt content           Password protect pages and articles
@@ -78,11 +84,11 @@ Events                    Add event start, duration, and location info to post m
 
 Extract table of content  Extracts table of contents (ToC) from ``article.content``
 
-Feed Summary              Allows article summaries to be used in ATOM and RSS feeds instead of the entire article
-
 Figure References         Provides a system to number and references figures
 
 Filetime from Git         Uses Git commit to determine page date
+
+Filetime from Hg          Uses Mercurial commit to determine page date
 
 Footer Insert             Add standardized footer (e.g., author information) at end of every article
 
@@ -92,9 +98,13 @@ Gallery                   Allows an article to contain an album of pictures
 
 Gist directive            This plugin adds a ``gist`` reStructuredText directive.
 
+GitHub wiki               Converts a flat github wiki into a structured read only wiki on your site
+
 GitHub activity           On the template side, you just have to iterate over the ``github_activity`` variable
 
 Global license            Allows you to define a ``LICENSE`` setting and adds the contents of that license variable to the article's context
+
+Glossary                  Adds a variable containing definitions extracted from definition lists in articles and pages. This variable is visible to all page templates.
 
 Goodreads activity        Lists books from your Goodreads shelves
 
@@ -118,11 +128,15 @@ Image Process             Automates the processing of images based on their clas
 
 Interlinks                Lets you add frequently used URLs to your markup using short keywords
 
-Just table                Easily create tables in articles
+Jinja2 Content            Allows the use of Jinja2 template code in articles, including ``include`` and ``import`` statements. Replacement for pelican-jinja2content.
+
+Just table                Allows you to easily create and manage tables. You can embed the tables into posts with a simple way.
 
 Libravatar                Allows inclusion of user profile pictures from libravatar.org
 
 Link Class                Allows the insertion of class attributes into generated <a> elements (Markdown only)
+
+Linker                    Allows the definition of custom linker commands in analogy to the builtin ``{filename}``, ``{attach}``, ``{category}``, ``{tag}``, ``{author}``, and ``{index}`` syntax
 
 Liquid-style tags         Allows liquid-style tags to be inserted into markdown within Pelican documents
 
@@ -158,6 +172,8 @@ Pelican Cite              Produces inline citations and a bibliography in articl
 
 Pelican Comment System    Allows you to add static comments to your articles
 
+pelican-ert               Allows you to add estimated reading time of an article
+
 Pelican-flickr            Brings your Flickr photos & sets into your static website
 
 Pelican Genealogy         Add surnames and people so metadata and context can be accessed from within a theme to provide surname and person pages
@@ -178,6 +194,8 @@ Pelican Page Order        Adds a ``page_order`` attribute to all pages if one is
 
 Pelican Themes Generator  Generates theme screenshots from the Pelican Themes repository
 
+pelican-rdf                Allows the processing of .rdf vocabularies, and the generation of a lightweight documentation.
+
 pelican-toc               Generates a Table of Contents and make it available to the theme via article.toc
 
 Pelican Vimeo             Enables you to embed Vimeo videos in your pages and articles
@@ -187,6 +205,8 @@ Pelican YouTube           Enables you to embed YouTube videos in your pages and 
 pelicanfly                Lets you type things like ``i ♥ :fa-coffee:`` in your Markdown documents and have it come out as little Font Awesome icons in the browser
 
 Photos                    Add a photo or a gallery of photos to an article, or include photos in the body text. Resize photos as needed.
+
+permalink                 Enables a kind of permalink using html redirects.
 
 Pin to top                Pin Pelican's article(s) to top "Sticky article"
 
@@ -212,7 +232,11 @@ RMD Reader                Create posts via knitr RMarkdown files
 
 Section number            Adds section numbers for article headers, in the form of ``2.3.3``
 
+Series                    Groups related articles into a series
+
 Share post                Creates share URLs of article
+
+Show Source               Place a link to the source text of your posts.
 
 Simple footnotes          Adds footnotes to blog posts
 
@@ -230,6 +254,8 @@ Summary                   Allows easy, variable length summaries directly embedd
 
 tag_cloud                 Provides a tag_cloud
 
+Textile Reader            Adds support for Textile markup
+
 Thumbnailer               Creates thumbnails for all of the images found under a specific directory
 
 Tipue Search              Serializes generated HTML to JSON that can be used by jQuery plugin - Tipue Search
@@ -238,9 +264,18 @@ Touch                     Does a touch on your generated files using the date me
 
 Twitter Bootstrap         Defines some rst directive that enable a clean usage of the twitter bootstrap CSS and Javascript components
 
+txt2tags_reader           Reader that renders txt2tags markup in content
+
+Unity WebGL               Easily embed Unity3d games into posts and pages
+
+Video Privacy Enhancer    Increases user privacy by stopping YouTube, Google, et al from placing cookies via embedded video
+
 W3C validate              Submits generated HTML content to the W3C Markup Validation Service
+
+Yuicompressor             Minify CSS and JS files on building step
 ========================  ===========================================================
 
+__ https://ace.c9.io
 
 Please refer to the ``Readme`` file in a plugin's folder for detailed information about
 that plugin.
