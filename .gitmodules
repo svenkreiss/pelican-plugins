@@ -136,3 +136,6 @@
 [submodule "pelican-ert"]
 	path = pelican-ert
 	url = https://github.com/nogaems/pelican-ert.git
+[submodule "pelican_dynamic"]
+	path = pelican_dynamic
+	url = https://github.com/wrobstory/pelican_dynamic
